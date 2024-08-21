@@ -1,0 +1,29 @@
+[project]
+name = "kafka_chat"
+version = "0.1.1"
+description = "KAFKA chat program"
+authors = [
+    {name = "rlaehgus97", email = "starkim625@gmail.com"},
+]
+dependencies = []
+requires-python = "==3.8.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.3.2",
+]
+test = [
+    "pytest>=8.3.2",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+
+[project.scripts]
+kafka_chat-ping = 'kafka_chat.cli:ping'
