@@ -6,7 +6,7 @@ from datetime import datetime
 
 consumer = KafkaConsumer(
         'chat', # 토픽
-        bootstrap_servers=['localhost:9092'], # 받는 서버
+        bootstrap_servers=['43.201.83.4:9092'], # 받는 서버
         auto_offset_reset='earliest', # 종료중에 들어온 값도 받기
         enable_auto_commit=True,
         group_id='chat-group', # 그룹 할당

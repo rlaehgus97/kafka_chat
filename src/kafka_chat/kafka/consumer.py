@@ -17,10 +17,10 @@ def read_offset():
 saved_offset = read_offset()
 
 consumer = KafkaConsumer(
-        "topic1",
-        bootstrap_servers=['localhost:9092'],
+        #"topic1",
+        bootstrap_servers=['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
         value_deserializer=lambda x: loads(x.decode('utf-8')),
-        consumer_timeout_ms=5000
+        consumer_timeout_ms=5000,
         #auto_offset_reset='earliest', # 'earliest'이미 있던 데이터 포함  'latest'나중에 온거
         #auto_offset_reset='latest', # 'earliest', 'latest'
         #auto_offset_reset='earliest' if saved_offset is None else 'none',
