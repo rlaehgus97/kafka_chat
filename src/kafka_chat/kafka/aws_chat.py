@@ -6,6 +6,9 @@ import threading
 
 #THREAD_RUNNING = True
 
+# Create a global lock for sending messages
+send_lock = threading.Lock()
+
 def create_data(username, message, end):
     return {'sender': username, 'message': message, 'end': end}
 
@@ -21,8 +24,10 @@ def pchat(chatroom, username):
         end = False
 
         data = create_data(username, initial_msg, end)
-        sender.send(chatroom, data)
-        sender.flush()        
+         # Lock before sending the initial message
+        with send_lock:
+            sender.send(chatroom, data)
+            sender.flush()        
 
         while True:
             message = ""
@@ -35,8 +40,10 @@ def pchat(chatroom, username):
                 end = True
 
             data = {'sender': username, 'message': message, 'end': end}       
-            sender.send(chatroom, value=data)
-            sender.flush()
+             # Lock before sending the initial message
+            with send_lock:
+                sender.send(chatroom, value=data)
+                sender.flush()
 
             if end == True:
                 print("Exiting chat...")
@@ -52,7 +59,7 @@ def pchat(chatroom, username):
 def cchat(chatroom, username):
     receiver = KafkaConsumer(
         chatroom,
-        bootstrap_servers = ['ec2-43-203-182-252.ap-northeast-2.compute.amazonaws.com:9092'],
+        bootstrap_servers = ['ec2-43-201-83-4.ap-northeast-2.compute.amazonaws.com:9092'],
         enable_auto_commit = True,
         value_deserializer = lambda x: loads(x.decode('utf-8'))
     )
